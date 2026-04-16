@@ -25,4 +25,10 @@ void bucketSort(vector<float>& arr, int n)
     if (range == 0)
         return ;
 
+    int bucketIndex;
+    for (int i = 0; i< arr.size();i++)
+    {
+        bucketIndex = (arr[i] - minVal) * (n - 1) / (maxVal - minVal);
+        buckets[bucketIndex].push_back(arr[i]);
+    }
 }
