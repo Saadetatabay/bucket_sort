@@ -6,6 +6,9 @@ using namespace std;
 
 void bucketSort(vector<float>& arr, int n)
 {
+    if (arr.empty())
+        return ;
+
     // n tane boş kova oluşturuyoruz
     vector<vector<float>> buckets(n);
     float minVal = arr[0];
@@ -32,14 +35,14 @@ void bucketSort(vector<float>& arr, int n)
         buckets[bucketIndex].push_back(arr[i]);
     }
     
-    bucketIndex = 0;
+    int index = 0;
     for (int i = 0; i< n; i++)
     {
         // her kovayı kendi içince sıralıyoruz
         sort(buckets[i].begin(), buckets[i].end());
-        for (int j = 0; i < buckets[i].size(); i++)
+        for (int j = 0; j < buckets[i].size(); j++)
         {
-            arr[bucketIndex++] = buckets[i][j];
+            arr[index++] = buckets[i][j];
         }
     }
 
