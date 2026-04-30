@@ -1,55 +1,73 @@
 #include <iostream>
-#include <algorithm>
+#include <algorithm> // std::sort (IntroSort) kullanımı için
 #include <vector>
 
 using namespace std;
 
+/**
+ * Bucket Sort Algoritması
+ * @param arr: Sıralanacak float vektörü
+ * @param n: Oluşturulacak kova sayısı
+ * Gerekçe: Veriler aralığa homojen dağıldığında O(n+k) performans sağlar.
+ */
 void bucketSort(vector<float>& arr, int n)
 {
-    if (arr.empty())
-        return ;
+    // Hata Kontrolü: Boş dizi veya kova sayısı geçersizliği
+    if (arr.empty() || n <= 0)
+        return;
 
-    // n tane boş kova oluşturuyoruz
-    vector<vector<float>> buckets(n);
+    // 1. ADIM: Dizideki minimum ve maksimum değerleri bulma
     float minVal = arr[0];
     float maxVal = arr[0];
     
-    for (int i = 0; i< arr.size();i++)
+    for (size_t i = 1; i < arr.size(); i++)
     {
-        if (arr[i] < minVal)
-            minVal = arr[i];
-        if (arr[i] > maxVal)
-            maxVal = arr[i];
+        if (arr[i] < minVal) minVal = arr[i];
+        if (arr[i] > maxVal) maxVal = arr[i];
     }
 
     float range = maxVal - minVal;
 
-    // eğer tüm değerler birbirine eşitse sıralıdır diyip return yapıyoruz
+    // Eğer tüm değerler aynıysa dizi zaten sıralıdır
     if (range == 0)
-        return ;
+        return;
 
-    int bucketIndex;
-    for (int i = 0; i< arr.size();i++)
+    // 2. ADIM: n tane boş kova oluşturma
+    vector<vector<float>> buckets(n);
+
+    // 3. ADIM: Elemanları uygun kovalara yerleştirme (Normalizasyon)
+    for (size_t i = 0; i < arr.size(); i++)
     {
-        bucketIndex = (int)((arr[i] - minVal) * (n - 1) / (maxVal - minVal));
+        // Hassas hesaplama: maxVal değerinin indis sınırını (n) aşmasını engelliyoruz
+        int bucketIndex = (int)((arr[i] - minVal) * (n - 1) / range);
+        
+        // Güvenlik kontrolü (Floating point hatalarına karşı koruma)
+        if (bucketIndex >= n) bucketIndex = n - 1;
+        if (bucketIndex < 0) bucketIndex = 0;
+        
         buckets[bucketIndex].push_back(arr[i]);
     }
     
+    // 4. ADIM: Her kovayı sıralama ve ana diziye geri yazma
     int index = 0;
-    for (int i = 0; i< n; i++)
+    for (int i = 0; i < n; i++)
     {
-        // her kovayı kendi içince sıralıyoruz
-        sort(buckets[i].begin(), buckets[i].end());
-        for (int j = 0; j < buckets[i].size(); j++)
-        {
-            arr[index++] = buckets[i][j];
+        /** 
+         * Kova içi sıralamada std::sort (IntroSort) kullanılmıştır.
+         * IntroSort, verinin durumuna göre en verimli sıralamayı garanti eder.
+         */
+        if (!buckets[i].empty()) {
+            sort(buckets[i].begin(), buckets[i].end());
+            for (float val : buckets[i])
+            {
+                arr[index++] = val;
+            }
         }
     }
-
 }
 
 int main() {
-    // Örnek bir veri seti (Karmaşık ondalıklı sayılar)
+    // Örnek veri seti: Dağınık ondalıklı sayılar
     vector<float> data = {15.5, 1.2, 55.8, 110.0, 10.0, 42.7, 88.3};
     int kovaSayisi = 5;
 
@@ -57,7 +75,7 @@ int main() {
     for (float x : data) cout << x << " ";
     cout << endl;
 
-    // Yazdığımız fonksiyonu çağırıyoruz
+    // Bucket Sort fonksiyonunun çağrılması
     bucketSort(data, kovaSayisi);
 
     cout << "Siralamadan Sonra (Bucket Sort): ";
