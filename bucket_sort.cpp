@@ -1,5 +1,5 @@
 #include <iostream>
-#include <algorithm> // std::sort (IntroSort) kullanımı için
+#include <algorithm>
 #include <vector>
 
 using namespace std;
