@@ -47,3 +47,22 @@ void bucketSort(vector<float>& arr, int n)
     }
 
 }
+
+int main() {
+    // Örnek bir veri seti (Karmaşık ondalıklı sayılar)
+    vector<float> data = {15.5, 1.2, 55.8, 110.0, 10.0, 42.7, 88.3};
+    int kovaSayisi = 5;
+
+    cout << "Siralamadan Once: ";
+    for (float x : data) cout << x << " ";
+    cout << endl;
+
+    // Yazdığımız fonksiyonu çağırıyoruz
+    bucketSort(data, kovaSayisi);
+
+    cout << "Siralamadan Sonra (Bucket Sort): ";
+    for (float x : data) cout << x << " ";
+    cout << endl;
+
+    return 0;
+}
