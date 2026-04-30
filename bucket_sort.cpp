@@ -53,11 +53,11 @@ void bucketSort(vector<float>& arr, int n)
     for (int i = 0; i < n; i++)
     {
         /** 
-         * Kova içi sıralamada C++ Standart Kütüphanesi'ndeki std::sort tercih edilmiştir.
-         * std::sort, IntroSort mimarisi sayesinde O(n log n) garantisi sunar.
+         * Kova içi sıralamada kararlılığı (stability) korumak amacıyla 
+         * C++ Standart Kütüphanesi'ndeki std::stable_sort tercih edilmiştir.
          */
         if (!buckets[i].empty()) {
-            sort(buckets[i].begin(), buckets[i].end());
+            stable_sort(buckets[i].begin(), buckets[i].end());
             for (float val : buckets[i])
             {
                 arr[index++] = val;
