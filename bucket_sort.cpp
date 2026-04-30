@@ -53,8 +53,8 @@ void bucketSort(vector<float>& arr, int n)
     for (int i = 0; i < n; i++)
     {
         /** 
-         * Kova içi sıralamada std::sort (IntroSort) kullanılmıştır.
-         * IntroSort, verinin durumuna göre en verimli sıralamayı garanti eder.
+         * Kova içi sıralamada C++ Standart Kütüphanesi'ndeki std::sort tercih edilmiştir.
+         * std::sort, IntroSort mimarisi sayesinde O(n log n) garantisi sunar.
          */
         if (!buckets[i].empty()) {
             sort(buckets[i].begin(), buckets[i].end());
